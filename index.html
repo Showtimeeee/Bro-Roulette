@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bro Roulette</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app">
+        <main class="wheel-area">
+            <div class="result-banner" id="result-banner">
+                <span id="result-text">Добавьте варианты и крутите!</span>
+            </div>
+            <div class="wheel-container">
+                <div class="arrow" id="arrow">&#9660;</div>
+                <canvas id="wheel" width="540" height="540"></canvas>
+                <button class="spin-btn" id="spin-btn">КРУТИТЬ</button>
+            </div>
+        </main>
+
+        <aside class="sidebar">
+            <h2>Варианты</h2>
+            <div id="options-list"></div>
+            <div class="add-option">
+                <input type="text" id="option-input" placeholder="Новый вариант..." maxlength="30">
+                <button id="add-btn">+</button>
+            </div>
+            <button id="reset-btn" class="secondary-btn">Сбросить</button>
+        </aside>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
