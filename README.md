@@ -1,5 +1,7 @@
 # Bro Roulette
 
+<img width="859" height="914" alt="rand-logo" src="https://github.com/user-attachments/assets/4a4d19fd-836c-438a-b84d-c01b22027823" />
+
 Веб-приложение «Рулетка» — рандомайзер вариантов с анимированным барабаном.
 
 ## Как пользоваться
@@ -11,4 +13,4 @@
 
 ## Запуск
 
-Открой `index.html` в браузере.
+https://bro-roulette.onrender.com/
