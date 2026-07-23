@@ -6,8 +6,39 @@ const COLORS = [
 ];
 
 const DEFAULT_OPTIONS = ['Вариант 1', 'Вариант 2', 'Вариант 3', 'Вариант 4'];
+const STORAGE_KEY = 'bro-roulette-options';
+const HISTORY_KEY = 'bro-roulette-history';
+const MAX_HISTORY = 20;
 
-let options = [...DEFAULT_OPTIONS];
+function loadOptions() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+    } catch {}
+    return [...DEFAULT_OPTIONS];
+}
+
+function saveOptions() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(options));
+}
+
+function loadHistory() {
+    try {
+        const saved = localStorage.getItem(HISTORY_KEY);
+        if (saved) return JSON.parse(saved);
+    } catch {}
+    return [];
+}
+
+function saveHistory() {
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+}
+
+let options = loadOptions();
+let history = loadHistory();
 let currentRotation = 0;
 let isSpinning = false;
 
@@ -20,6 +51,12 @@ const optionsList = document.getElementById('options-list');
 const resultText = document.getElementById('result-text');
 const resultBanner = document.getElementById('result-banner');
 const resetBtn = document.getElementById('reset-btn');
+const clearAllBtn = document.getElementById('clear-all-btn');
+const historyList = document.getElementById('history-list');
+const historyToggle = document.getElementById('history-toggle');
+const historyBody = document.getElementById('history-body');
+const historyArrow = document.getElementById('history-arrow');
+const clearHistoryBtn = document.getElementById('clear-history-btn');
 
 const cx = canvas.width / 2;
 const cy = canvas.height / 2;
@@ -98,10 +135,50 @@ function renderOptionsList() {
         btn.addEventListener('click', (e) => {
             const idx = parseInt(e.target.dataset.index);
             options.splice(idx, 1);
+            saveOptions();
             renderOptionsList();
             drawWheel();
         });
     });
+}
+
+function renderHistory() {
+    historyList.innerHTML = '';
+    if (history.length === 0) {
+        historyList.innerHTML = '<div class="history-empty">Пока пусто</div>';
+        return;
+    }
+    history.forEach((entry) => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        div.innerHTML = `
+            <span class="option-color" style="background:${entry.color}"></span>
+            <span class="history-label">${entry.text}</span>
+            <span class="history-time">${entry.time}</span>
+        `;
+        historyList.appendChild(div);
+    });
+}
+
+function addToHistory(text, colorIndex) {
+    const now = new Date();
+    const time = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    history.unshift({ text, color: getColor(colorIndex), time });
+    if (history.length > MAX_HISTORY) history.length = MAX_HISTORY;
+    saveHistory();
+    renderHistory();
+}
+
+function clearAllOptions() {
+    if (options.length === 0) return;
+    options = [];
+    saveOptions();
+    currentRotation = 0;
+    canvas.style.transform = 'rotate(0rad)';
+    resultText.textContent = 'Добавьте варианты и крутите!';
+    resultBanner.classList.remove('won');
+    renderOptionsList();
+    drawWheel();
 }
 
 function addOption() {
@@ -112,6 +189,7 @@ function addOption() {
         return;
     }
     options.push(value);
+    saveOptions();
     optionInput.value = '';
     renderOptionsList();
     drawWheel();
@@ -165,6 +243,7 @@ function spin() {
 
             resultText.textContent = ` ${winner}`;
             resultBanner.classList.add('won');
+            addToHistory(winner, winningIndex);
             isSpinning = false;
             spinBtn.disabled = false;
         }
@@ -182,6 +261,7 @@ canvas.addEventListener('click', spin);
 
 resetBtn.addEventListener('click', () => {
     options = [...DEFAULT_OPTIONS];
+    saveOptions();
     currentRotation = 0;
     canvas.style.transform = 'rotate(0rad)';
     resultText.textContent = 'Добавьте варианты и крутите!';
@@ -190,5 +270,19 @@ resetBtn.addEventListener('click', () => {
     drawWheel();
 });
 
+clearAllBtn.addEventListener('click', clearAllOptions);
+
+historyToggle.addEventListener('click', () => {
+    historyBody.classList.toggle('open');
+    historyArrow.classList.toggle('open');
+});
+
+clearHistoryBtn.addEventListener('click', () => {
+    history = [];
+    saveHistory();
+    renderHistory();
+});
+
 renderOptionsList();
+renderHistory();
 drawWheel();
