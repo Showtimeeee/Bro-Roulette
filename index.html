@@ -27,9 +27,27 @@
                 <input type="text" id="option-input" placeholder="Новый вариант..." maxlength="30">
                 <button id="add-btn">+</button>
             </div>
-            <button id="reset-btn" class="secondary-btn">Сбросить</button>
+            <div class="btn-row">
+                <button id="clear-all-btn" class="secondary-btn danger-btn">Удалить все</button>
+                <button id="reset-btn" class="secondary-btn">Сбросить</button>
+            </div>
         </aside>
+
+        <section class="history-section">
+            <button class="history-toggle" id="history-toggle">
+                <span>История</span>
+                <span class="history-arrow" id="history-arrow">&#9660;</span>
+            </button>
+            <div class="history-body" id="history-body">
+                <div id="history-list"></div>
+                <button id="clear-history-btn" class="secondary-btn danger-btn">Очистить историю</button>
+            </div>
+        </section>
     </div>
+
+    <footer class="footer">
+        v1.2 &bull; 2026 &bull; &copy; Vadim &bull; <a href="mailto:seevaa57@gmail.com">seevaa57@gmail.com</a>
+    </footer>
 
     <script src="js/script.js"></script>
 </body>
