@@ -10,7 +10,7 @@ body {
     color: #eee;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
 }
 
@@ -259,8 +259,147 @@ body {
     color: #eee;
 }
 
+.btn-row {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-row .secondary-btn {
+    flex: 1;
+}
+
+.danger-btn {
+    background: #3a1520;
+    color: #e94560;
+}
+
+.danger-btn:hover {
+    background: #e94560;
+    color: #fff;
+}
+
+/* History */
+.history-section {
+    width: 540px;
+}
+
+.history-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #16213e;
+    border: none;
+    border-radius: 12px;
+    color: #f0c040;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.history-toggle:hover {
+    background: #1a2d50;
+}
+
+.history-arrow {
+    font-size: 12px;
+    transition: transform 0.3s;
+}
+
+.history-arrow.open {
+    transform: rotate(180deg);
+}
+
+.history-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    background: #16213e;
+    border-radius: 0 0 12px 12px;
+    padding: 0 24px;
+}
+
+.history-body.open {
+    max-height: 400px;
+    padding: 16px 24px;
+}
+
+#history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 240px;
+    overflow-y: auto;
+    padding-right: 4px;
+    margin-bottom: 12px;
+}
+
+#history-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+#history-list::-webkit-scrollbar-thumb {
+    background: #f0c040;
+    border-radius: 3px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    background: #0f3460;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    gap: 10px;
+}
+
+.history-label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.history-time {
+    color: #666;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.history-empty {
+    text-align: center;
+    color: #555;
+    padding: 12px;
+    font-size: 14px;
+}
+
+#clear-history-btn {
+    width: 100%;
+}
+
+.footer {
+    text-align: center;
+    padding: 24px;
+    color: #555;
+    font-size: 13px;
+    margin-top: auto;
+}
+
+.footer a {
+    color: #f0c040;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
 @media (max-width: 600px) {
-    .sidebar, .wheel-container {
+    .sidebar, .wheel-container, .history-section {
         width: 100%;
     }
     .wheel-container {
